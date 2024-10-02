@@ -20,13 +20,13 @@ fun MainScreen(
     var productItemSelected by remember { mutableStateOf("") }
 
     Column(modifier = modifier) {
-        ProductDropDown(state = state.productUiState) {
+        ProductDropDown(data = state.productUiState) {
             productItemSelected = it
             sendEvent(ProductItemClicked(it))
         }
 
         AnimatedVisibility(state.categoryUiState.items.isNotEmpty()) {
-            CategoryDropDown(state = state.categoryUiState)
+            CategoryDropDown(data = state.categoryUiState)
         }
     }
 }
