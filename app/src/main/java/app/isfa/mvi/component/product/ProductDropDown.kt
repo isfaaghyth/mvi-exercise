@@ -5,13 +5,13 @@ import app.isfa.mvi.component.ComponentDropDown
 import app.isfa.mvi.component.DropDownType
 
 @Composable
-fun ProductDropDownComponent(
-    state: ProductUiState,
+fun ProductDropDown(
+    data: ProductUiState,
     onProductDropDownClicked: (String) -> Unit
 ) {
     ComponentDropDown(
         type = DropDownType("Product"),
-        items = state.items,
+        items = data.items.map { it.second },
     ) {
         onProductDropDownClicked(it)
     }

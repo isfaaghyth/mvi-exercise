@@ -3,7 +3,7 @@ package app.isfa.mvi.component.product
 import app.isfa.mvi.base.UiState
 
 data class ProductUiState(
-    val items: List<String>,
+    val items: List<Pair<Int, String>>,
     val state: UiState
 ) {
 
