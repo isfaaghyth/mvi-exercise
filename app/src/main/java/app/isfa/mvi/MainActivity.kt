@@ -20,11 +20,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val state by viewModel.state.collectAsState()
+            val effects by viewModel.effects.collectAsState(null)
 
             MviTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
                         state = state,
+                        effects = effects,
                         sendEvent = {
                             viewModel.sendEvent(it)
                         },

@@ -1,5 +1,6 @@
 package app.isfa.mvi.component.category
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import app.isfa.mvi.base.UiState
@@ -12,13 +13,15 @@ fun CategoryDropDown(
 ) {
     when (data.state) {
         is UiState.Success -> {
-            ComponentDropDown(
-                type = DropDownType("Category"),
-                items = data.items,
-            ) {}
+            AnimatedVisibility(data.items.isNotEmpty()) {
+                ComponentDropDown(
+                    type = DropDownType("Category"),
+                    items = data.items,
+                ) {}
+            }
         }
         is UiState.Fail -> {
-            Text(text = "tidak ditemukan")
+            Text(text = "Category Kosong")
         }
         else -> Unit
     }
