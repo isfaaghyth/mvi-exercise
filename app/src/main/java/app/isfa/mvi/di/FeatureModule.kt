@@ -10,6 +10,8 @@ import app.isfa.mvi.ui.component.category.CategoryUpdate
 import app.isfa.mvi.ui.component.category.CategoryUpdateImpl
 import app.isfa.mvi.ui.component.product.ProductUpdate
 import app.isfa.mvi.ui.component.product.ProductUpdateImpl
+import app.isfa.mvi.ui.component.reusable.ReusableUpdate
+import app.isfa.mvi.ui.component.reusable.ReusableUpdateImpl
 
 object FeatureModule {
 
@@ -29,6 +31,14 @@ object FeatureModule {
         return CategoryUpdateImpl(
             CategoryUseCase(),
             provideMainUpdateScope()
+        )
+    }
+
+    fun provideReusableUpdate(): ReusableUpdate {
+        return ReusableUpdateImpl(
+            useCase1 = listOf("AAA", "AAA1", "AAA2"),
+            useCase2 = listOf("BBB", "BBBBBB", "BB"),
+            updateScope = provideMainUpdateScope()
         )
     }
 }

@@ -28,5 +28,15 @@ fun MainScreen(
         }
 
         CategoryDropDown(data = state.categoryUiState)
+
+        AgnosticDropDown(
+            title = "Shared Feature A",
+            data = state.reusableUiState.featureAUiState.items
+        )
+
+        AgnosticDropDown(
+            title = "Shared Feature B",
+            data = state.reusableUiState.featureBUiState.items
+        )
     }
 }

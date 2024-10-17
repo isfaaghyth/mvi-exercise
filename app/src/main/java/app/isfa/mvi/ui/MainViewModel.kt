@@ -9,6 +9,9 @@ import app.isfa.mvi.di.FeatureModule
 import app.isfa.mvi.ui.component.category.CategoryUpdate
 import app.isfa.mvi.ui.component.product.ProductList
 import app.isfa.mvi.ui.component.product.ProductUpdate
+import app.isfa.mvi.ui.component.reusable.ReusableFeatureA
+import app.isfa.mvi.ui.component.reusable.ReusableFeatureB
+import app.isfa.mvi.ui.component.reusable.ReusableUpdate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,6 +24,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     categoryUpdate: CategoryUpdate = FeatureModule.provideCategoryUpdate(),
     productUpdate: ProductUpdate = FeatureModule.provideProductUpdate(),
+    reusableUpdate: ReusableUpdate = FeatureModule.provideReusableUpdate(),
     private val eventHandler: EventHandler = FeatureModule.provideEventHandler()
 ) : ViewModel() {
 
@@ -31,11 +35,13 @@ class MainViewModel(
     val state: StateFlow<MainUiState> =
         combine(
             productUpdate.uiState,
-            categoryUpdate.uiState
-        ) { productUiState, categoryUiState ->
+            categoryUpdate.uiState,
+            reusableUpdate.uiState
+        ) { productUiState, categoryUiState, reusableUiState ->
             MainUiState(
                 productUiState = productUiState,
-                categoryUiState = categoryUiState
+                categoryUiState = categoryUiState,
+                reusableUiState = reusableUiState
             )
         }.flowOn(Dispatchers.IO)
             .stateIn(
@@ -48,7 +54,8 @@ class MainViewModel(
         // don't forget to register your component here
         factory.registerUpdates(
             productUpdate,
-            categoryUpdate
+            categoryUpdate,
+            reusableUpdate
         )
 
         viewModelScope.launch {
@@ -57,7 +64,12 @@ class MainViewModel(
                 .collect { factory.eventHandlers(it) }
         }
 
+        // init
         sendEvent(ProductList)
+
+        // sample
+        sendEvent(ReusableFeatureA.FetchFeatureAList)
+        sendEvent(ReusableFeatureB.FetchFeatureBList)
     }
 
     fun sendEvent(event: Event) {
