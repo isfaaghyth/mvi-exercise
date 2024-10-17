@@ -36,9 +36,7 @@ class MainViewModel(
             MainUiState(
                 productUiState = productUiState,
                 categoryUiState = categoryUiState
-            ).also {
-                println("apa ini??? $it")
-            }
+            )
         }.flowOn(Dispatchers.IO)
             .stateIn(
                 scope = viewModelScope,
