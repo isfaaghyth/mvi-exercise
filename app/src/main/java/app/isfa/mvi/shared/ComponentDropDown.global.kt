@@ -1,4 +1,4 @@
-package app.isfa.mvi.component
+package app.isfa.mvi.shared
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package app.isfa.mvi.component.category
+package app.isfa.mvi.ui.component.category
 
 import app.isfa.mvi.base.UiState
 

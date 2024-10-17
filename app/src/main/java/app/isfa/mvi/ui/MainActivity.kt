@@ -1,4 +1,4 @@
-package app.isfa.mvi
+package app.isfa.mvi.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import app.isfa.mvi.ui.screen.MainScreen
 import app.isfa.mvi.ui.theme.MviTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,18 +21,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val state by viewModel.state.collectAsState()
-            val effects by viewModel.effects.collectAsState(null)
 
             MviTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
                         state = state,
-                        effects = effects,
-                        sendEvent = {
-                            viewModel.sendEvent(it)
-                        },
-                        modifier = Modifier
-                            .padding(innerPadding)
+                        sendEvent = { viewModel.sendEvent(it) },
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
             }

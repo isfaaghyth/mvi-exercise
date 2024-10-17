@@ -1,8 +1,8 @@
-package app.isfa.mvi.component.product
+package app.isfa.mvi.ui.component.product
 
 import androidx.compose.runtime.Composable
-import app.isfa.mvi.component.ComponentDropDown
-import app.isfa.mvi.component.DropDownType
+import app.isfa.mvi.shared.ComponentDropDown
+import app.isfa.mvi.shared.DropDownType
 
 @Composable
 fun ProductDropDown(

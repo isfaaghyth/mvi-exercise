@@ -1,7 +1,7 @@
-package app.isfa.mvi
+package app.isfa.mvi.ui
 
-import app.isfa.mvi.component.category.CategoryUiState
-import app.isfa.mvi.component.product.ProductUiState
+import app.isfa.mvi.ui.component.category.CategoryUiState
+import app.isfa.mvi.ui.component.product.ProductUiState
 
 data class MainUiState(
     val productUiState: ProductUiState,

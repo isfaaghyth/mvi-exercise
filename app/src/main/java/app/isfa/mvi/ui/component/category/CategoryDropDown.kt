@@ -1,11 +1,11 @@
-package app.isfa.mvi.component.category
+package app.isfa.mvi.ui.component.category
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import app.isfa.mvi.base.UiState
-import app.isfa.mvi.component.ComponentDropDown
-import app.isfa.mvi.component.DropDownType
+import app.isfa.mvi.shared.ComponentDropDown
+import app.isfa.mvi.shared.DropDownType
 
 @Composable
 fun CategoryDropDown(
