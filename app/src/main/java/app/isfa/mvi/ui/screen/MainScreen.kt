@@ -1,6 +1,8 @@
 package app.isfa.mvi.ui.screen
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,8 +12,8 @@ import androidx.compose.ui.Modifier
 import app.isfa.mvi.core.Event
 import app.isfa.mvi.ui.MainUiState
 import app.isfa.mvi.ui.component.category.CategoryDropDown
-import app.isfa.mvi.ui.component.product.ProductClicked
 import app.isfa.mvi.ui.component.product.ProductDropDown
+import app.isfa.mvi.ui.component.product.ProductEvent
 
 @Composable
 fun MainScreen(
@@ -21,22 +23,18 @@ fun MainScreen(
 ) {
     var productItemSelected by remember { mutableStateOf("") }
 
-    Column(modifier = modifier) {
-        ProductDropDown(data = state.productUiState) {
-            productItemSelected = it
-            sendEvent(ProductClicked(productItemSelected))
+    LazyColumn {
+        items(state.positionUiState.components) {
+            if (it == "product_list") {
+                ProductDropDown(data = state.productUiState) {
+                    productItemSelected = it
+                    sendEvent(ProductEvent.ProductClicked(productItemSelected))
+                }
+            } else if (it == "category_title") {
+                Text(text = "Ini component title")
+            } else {
+                CategoryDropDown(data = state.categoryUiState)
+            }
         }
-
-        CategoryDropDown(data = state.categoryUiState)
-
-        AgnosticDropDown(
-            title = "Shared Feature A",
-            data = state.reusableUiState.featureAUiState.items
-        )
-
-        AgnosticDropDown(
-            title = "Shared Feature B",
-            data = state.reusableUiState.featureBUiState.items
-        )
     }
 }

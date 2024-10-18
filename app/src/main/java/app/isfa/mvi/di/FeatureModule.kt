@@ -8,10 +8,10 @@ import app.isfa.mvi.domain.CategoryUseCase
 import app.isfa.mvi.domain.ProductUseCase
 import app.isfa.mvi.ui.component.category.CategoryUpdate
 import app.isfa.mvi.ui.component.category.CategoryUpdateImpl
+import app.isfa.mvi.ui.component.position.PositionUpdate
+import app.isfa.mvi.ui.component.position.PositionUpdateImpl
 import app.isfa.mvi.ui.component.product.ProductUpdate
 import app.isfa.mvi.ui.component.product.ProductUpdateImpl
-import app.isfa.mvi.ui.component.reusable.ReusableUpdate
-import app.isfa.mvi.ui.component.reusable.ReusableUpdateImpl
 
 object FeatureModule {
 
@@ -30,14 +30,13 @@ object FeatureModule {
     fun provideCategoryUpdate(): CategoryUpdate {
         return CategoryUpdateImpl(
             CategoryUseCase(),
-            provideMainUpdateScope()
+            provideMainUpdateScope(),
+            provideEventHandler()
         )
     }
 
-    fun provideReusableUpdate(): ReusableUpdate {
-        return ReusableUpdateImpl(
-            useCase1 = listOf("AAA", "AAA1", "AAA2"),
-            useCase2 = listOf("BBB", "BBBBBB", "BB"),
+    fun providePositionUpdate(): PositionUpdate {
+        return PositionUpdateImpl(
             updateScope = provideMainUpdateScope()
         )
     }

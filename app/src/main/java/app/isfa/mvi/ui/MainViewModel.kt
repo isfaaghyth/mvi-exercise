@@ -7,11 +7,10 @@ import app.isfa.mvi.core.EventHandler
 import app.isfa.mvi.core.ObservableUpdateFactory
 import app.isfa.mvi.di.FeatureModule
 import app.isfa.mvi.ui.component.category.CategoryUpdate
-import app.isfa.mvi.ui.component.product.ProductList
+import app.isfa.mvi.ui.component.position.PositionEvent
+import app.isfa.mvi.ui.component.position.PositionUpdate
+import app.isfa.mvi.ui.component.product.ProductEvent
 import app.isfa.mvi.ui.component.product.ProductUpdate
-import app.isfa.mvi.ui.component.reusable.ReusableFeatureA
-import app.isfa.mvi.ui.component.reusable.ReusableFeatureB
-import app.isfa.mvi.ui.component.reusable.ReusableUpdate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,9 +21,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainViewModel(
+    positionUpdate: PositionUpdate = FeatureModule.providePositionUpdate(),
     categoryUpdate: CategoryUpdate = FeatureModule.provideCategoryUpdate(),
     productUpdate: ProductUpdate = FeatureModule.provideProductUpdate(),
-    reusableUpdate: ReusableUpdate = FeatureModule.provideReusableUpdate(),
     private val eventHandler: EventHandler = FeatureModule.provideEventHandler()
 ) : ViewModel() {
 
@@ -34,14 +33,14 @@ class MainViewModel(
 
     val state: StateFlow<MainUiState> =
         combine(
+            positionUpdate.uiState,
             productUpdate.uiState,
             categoryUpdate.uiState,
-            reusableUpdate.uiState
-        ) { productUiState, categoryUiState, reusableUiState ->
+        ) { positionUpdate, productUiState, categoryUiState ->
             MainUiState(
+                positionUiState = positionUpdate,
                 productUiState = productUiState,
                 categoryUiState = categoryUiState,
-                reusableUiState = reusableUiState
             )
         }.flowOn(Dispatchers.IO)
             .stateIn(
@@ -51,11 +50,10 @@ class MainViewModel(
             )
 
     init {
-        // don't forget to register your component here
         factory.registerUpdates(
             productUpdate,
             categoryUpdate,
-            reusableUpdate
+            positionUpdate
         )
 
         viewModelScope.launch {
@@ -65,11 +63,8 @@ class MainViewModel(
         }
 
         // init
-        sendEvent(ProductList)
-
-        // sample
-        sendEvent(ReusableFeatureA.FetchFeatureAList)
-        sendEvent(ReusableFeatureB.FetchFeatureBList)
+        sendEvent(ProductEvent.ProductList)
+        sendEvent(PositionEvent.GetPositionList)
     }
 
     fun sendEvent(event: Event) {

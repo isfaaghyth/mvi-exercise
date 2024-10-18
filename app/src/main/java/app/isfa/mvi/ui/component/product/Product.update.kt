@@ -6,7 +6,7 @@ import app.isfa.mvi.core.EventHandler
 import app.isfa.mvi.core.Update
 import app.isfa.mvi.core.UpdateScope
 import app.isfa.mvi.domain.ProductUseCase
-import app.isfa.mvi.ui.component.category.CategoryList
+import app.isfa.mvi.ui.component.category.CategoryEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,10 +27,10 @@ class ProductUpdateImpl(
 
     override fun handleEvent(event: Event) {
         when(event) {
-            is ProductList -> shouldFetchProductList()
-            is ProductClicked -> {
-                eventHandler.sendEvent(CategoryList(event.name))
-            }
+            is ProductEvent.ProductList -> shouldFetchProductList()
+            is ProductEvent.ProductClicked -> eventHandler.sendEvent(
+                CategoryEvent.CategoryList(event.name)
+            )
         }
     }
 

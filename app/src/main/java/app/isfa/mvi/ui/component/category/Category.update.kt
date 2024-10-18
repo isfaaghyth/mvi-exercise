@@ -2,6 +2,7 @@ package app.isfa.mvi.ui.component.category
 
 import app.isfa.mvi.base.UiState
 import app.isfa.mvi.core.Event
+import app.isfa.mvi.core.EventHandler
 import app.isfa.mvi.core.Update
 import app.isfa.mvi.core.UpdateScope
 import app.isfa.mvi.domain.CategoryUseCase
@@ -16,15 +17,18 @@ interface CategoryUpdate : Update {
 
 class CategoryUpdateImpl(
     private val categoryUseCase: CategoryUseCase,
-    private val updateScope: UpdateScope
+    private val updateScope: UpdateScope,
+    private val eventHandler: EventHandler,
 ) : CategoryUpdate, UpdateScope by updateScope {
 
     private val _uiState = MutableStateFlow(CategoryUiState.Default)
     override val uiState: Flow<CategoryUiState> get() = _uiState
 
     override fun handleEvent(event: Event) {
-        if (event is CategoryList) {
-            shouldFetchCategoryByProductName(event.productName)
+        when(event) {
+            is CategoryEvent.CategoryList -> {
+                shouldFetchCategoryByProductName(event.productName)
+            }
         }
     }
 
